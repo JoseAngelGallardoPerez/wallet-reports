@@ -1,0 +1,2334 @@
+openapi: 3.0.0
+servers:
+- url: http://localhost:10103
+  description: Local Api
+- url: http://ec2-34-204-75-112.compute-1.amazonaws.com
+  description: Dev Api
+info:
+  version: "1.0.0"
+  title: 'Velmie Wallet reports service'
+  description: 'Velmie Wallet reports service'
+security:
+- bearerAuth: []
+tags:
+  - name: Specific user reports
+    description: Specific user reports for admin
+  - name: General system reports
+    description: General system reports for admin
+  - name: User reports
+    description: All reports for user
+paths:
+  /reports/private/v1/admin/user/account:
+    get:
+      summary: Show list transactions of account for admin
+      description: Has includes of related filters, pagination.
+      operationId: showListAdminSpecificUserAccount
+      tags:
+      - Specific user reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      - $ref: '#/components/parameters/filtersAccountId'
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminUserAccount'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/user/account/export:
+    get:
+      summary: Responds with a file with transactions of account for admins.
+      description: Has includes of related filters
+      operationId: downloadCsvWithAdminSpecificUserAccount
+      tags:
+      - Specific user reports
+      parameters:
+      - $ref: '#/components/parameters/filtersAccountId'
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/user/transaction:
+    get:
+      summary: Show list all transactions for admin
+      description: Has includes of related filters, pagination.
+      operationId: showListAdminSpecificUserTransaction
+      tags:
+      - Specific user reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      - $ref: '#/components/parameters/filtersUserId'
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminUserTransaction'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/user/transaction/export:
+    get:
+      summary: Responds with a file with all transactions for admins
+      description: Has includes of related filters
+      operationId: downloadCsvWithAdminSpecificUserTransaction
+      tags:
+      - Specific user reports
+      parameters:
+      - $ref: '#/components/parameters/filtersUserId'
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/user/balance:
+    get:
+      summary: Show list balances for admin
+      description: Has includes of related filters, pagination.
+      operationId: showListAdminSpecificUserBalance
+      tags:
+      - Specific user reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      - $ref: '#/components/parameters/filtersUserIdRequired'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminUserBalance'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/user/balance/export:
+    get:
+      summary: Responds with a file with balances for admins
+      description: Has includes of related filters
+      operationId: downloadCsvWithAdminSpecificUserBalance
+      tags:
+      - Specific user reports
+      parameters:
+      - $ref: '#/components/parameters/filtersUserIdRequired'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/transaction:
+    get:
+      summary: Show list all transactions for admin
+      description: Has includes of related filters, pagination.
+      operationId: showListAdminGeneralSystemTransaction
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminSystemTransaction'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/transaction/export:
+    get:
+      summary: Responds with a file with all transactions for admins
+      description: Has includes of related filters
+      operationId: downloadCsvWithAdminGeneralSystemTransaction
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/interests:
+    get:
+      summary: Show list interests for admin
+      description: Has includes of related filters, pagination.
+      operationId: showListAdminGeneralSystemInterests
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminSystemInterest'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/interests/export:
+    get:
+      summary: Responds with a file with interests for admins
+      description: Has includes of related filters
+      operationId: downloadCsvWithAdminGeneralSystemInterests
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/manual-transaction:
+    get:
+      summary: Show list manual transactions for admin
+      description: Has includes of related filters, pagination.
+      operationId: showListAdminGeneralSystemManualTransaction
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminSystemManualTransaction'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/manual-transaction/export:
+    get:
+      summary: Responds with a file with manual transactions for admins
+      description: Has includes of related filters
+      operationId: downloadCsvWithAdminGeneralSystemManualTransaction
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/balance:
+    get:
+      summary: Show list balances for admin
+      description: Has includes of related filters, pagination.
+      operationId: showListAdminGeneralSystemBalance
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminSystemBalance'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/balance/export:
+    get:
+      summary: Responds with a file with balances for admins
+      description: Has includes of related filters
+      operationId: downloadCsvWithAdminGeneralSystemBalance
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/maturity:
+    get:
+      summary: Show list maturity dates for admin
+      description: Has includes of related pagination.
+      operationId: showListAdminGeneralSystemMaturity
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminSystemMaturity'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/maturity/export:
+    get:
+      summary: Responds with a file with maturity dates for admins
+      operationId: downloadCsvWithAdminGeneralSystemMaturity
+      tags:
+      - General system reports
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/outgoing-transfer:
+    get:
+      summary: Show list outgoing transfers for admin
+      description: Has includes of related filters, pagination.
+      operationId: showListAdminGeneralSystemOutgoingTransfer
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      - $ref: '#/components/parameters/filtersCurrencyCode'
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminSystemOutgoingTransfer'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/outgoing-transfer/export:
+    get:
+      summary: Responds with a file with outgoing transfers for admins
+      description: Has includes of related filters
+      operationId: downloadCsvWithAdminGeneralSystemOutgoingTransfer
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/filtersCurrencyCode'
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/card:
+    get:
+      summary: Show list all cards for admin
+      description: Has includes of related pagination.
+      operationId: showListAdminGeneralSystemCard
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminSystemCard'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/card/export:
+    get:
+      summary: Responds with a file with all cards for admins
+      operationId: downloadCsvWithAdminGeneralSystemCard
+      tags:
+      - General system reports
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/access:
+    get:
+      summary: Show list access logs for admin
+      description: Has includes of related pagination.
+      operationId: showListAdminGeneralSystemAccess
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminSystemAccess'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/access/export:
+    get:
+      summary: Responds with a file with access logs for admins
+      operationId: downloadCsvWithAdminGeneralSystemAccess
+      tags:
+      - General system reports
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/revenue:
+    get:
+      summary: Show list revenues for admin
+      description: Has includes of related filters, pagination.
+      operationId: showListAdminGeneralSystemRevenue
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      - $ref: '#/components/parameters/filtersCurrencyCode'
+      - name: filters[type]
+        in: query
+        description: For loading nested resources
+        schema:
+          type: string
+          enum:
+          - all
+          - system
+          - manual
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      - $ref: '#/components/parameters/includeAdditionalEntities'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminSystemRevenue'
+                  include_entities:
+                    type: object
+                    properties:
+                      summary:
+                        type: object
+                        properties:
+                          startDate:
+                            type: string
+                            example: '01/01/1970'
+                          endDate:
+                            type: string
+                            example: '08/09/2018'
+                          currencyCode:
+                            type: string
+                            example: 'EUR'
+                          totalDebit:
+                            type: string
+                            example: '1,275.01'
+                          totalCredit:
+                            type: string
+                            example: '1,744.22'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/revenue/export:
+    get:
+      summary: Responds with a file with revenues for admins
+      description: Has includes of related filters
+      operationId: downloadCsvWithAdminGeneralSystemRevenue
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/filtersCurrencyCode'
+      - name: filters[type]
+        in: query
+        description: For loading nested resources
+        schema:
+          type: string
+          enum:
+          - all
+          - system
+          - manual
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/overview:
+    get:
+      summary: Show list overview for admin
+      description: Has includes of related filters.
+      operationId: showListAdminGeneralSystemOverview
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: object
+                    properties:
+                      deposits:
+                        type: array
+                        items:
+                          properties:
+                            name:
+                              type: string
+                              example: '01/01/1970'
+                            currencies:
+                              type: array
+                              items:
+                                properties:
+                                  count:
+                                    type: integer
+                                    format: uint64
+                                  balance:
+                                    type: string
+                                    example: '1,275.01'
+                                  currencyCode:
+                                    type: string
+                                    example: 'EUR'
+                      revenues:
+                        type: array
+                        items:
+                          properties:
+                            currencyCode:
+                              type: string
+                              example: 'EUR'
+                            sum:
+                              type: string
+                              example: '1,275.01'
+                            count:
+                              type: integer
+                              format: uint64
+                      revenuesAccounts:
+                        type: array
+                        items:
+                          properties:
+                            currencyCode:
+                              type: string
+                              example: 'EUR'
+                            balance:
+                              type: string
+                              example: '1,275.01'
+                      totalBalance:
+                        type: array
+                        items:
+                          properties:
+                            currencyCode:
+                              type: string
+                              example: 'EUR'
+                            balance:
+                              type: string
+                              example: '1,275.01'
+                      pendingTransactions:
+                        type: array
+                        items:
+                          properties:
+                            currencyCode:
+                              type: string
+                              example: 'EUR'
+                            amount:
+                              type: string
+                              example: '1,275.01'
+                            count:
+                              type: integer
+                              format: uint64
+                      futureBalance:
+                        type: array
+                        items:
+                          properties:
+                            currencyCode:
+                              type: string
+                              example: 'EUR'
+                            balance:
+                              type: string
+                              example: '1,275.01'
+
+                  include_entities:
+                    type: object
+                    properties:
+                      active:
+                        type: integer
+                      pending:
+                        type: integer
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/admin/system/overview/export:
+    get:
+      summary: Responds with a file with overview for admins
+      description: Has includes of related filters
+      operationId: downloadCsvWithAdminGeneralSystemOverview
+      tags:
+      - General system reports
+      parameters:
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/account:
+    get:
+      summary: Show list account transactions for user
+      description: Has includes of related filters, pagination.
+      operationId: showListUserSpecificAccountStatement
+      tags:
+      - User reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      - $ref: '#/components/parameters/filtersAccountId'
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      - $ref: '#/components/parameters/includeAdditionalEntities'
+      - name: sort
+        in: query
+        description: For sorting by jsonapi way. Can be sorted in DESC direction by adding "-"
+        schema:
+          type: string
+          enum:
+          - createdAt
+          - id
+          - description
+          - amount
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserAccount'
+                  include_entities:
+                    type: object
+                    properties:
+                      account:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            format: uint64
+                            example: 427
+                          number:
+                            type: string
+                            example: 'VW453238248'
+                          balance:
+                            type: string
+                            example: '1,255.06'
+                          availableAmount:
+                            type: string
+                            example: '1,863.96'
+                          createdAt:
+                            type: string
+                            format: datetime
+                            example: '2018-10-26T13:16:11+00:00'
+                          type:
+                            $ref: '#/components/schemas/AccountTypeObject'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/account/export:
+    get:
+      summary: Responds with a file with account transactions for user
+      description: Has includes of related filters
+      operationId: downloadCsvWithUserSpecificAccountStatement
+      tags:
+      - User reports
+      parameters:
+      - $ref: '#/components/parameters/filtersAccountId'
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/transaction:
+    get:
+      summary: Show list all transactions for user
+      description: Has includes of related filters, pagination.
+      operationId: showListUserAllAccountsTransactions
+      tags:
+      - User reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      - name: sort
+        in: query
+        description: For sorting by jsonapi way. Can be sorted in DESC direction by adding "-"
+        schema:
+          type: string
+          enum:
+          - createdAt
+          - id
+          - description
+          - amount
+          - account.number
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserTransaction'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/transaction/export:
+    get:
+      summary: Responds with a file with all transactions for user
+      description: Has includes of related filters
+      operationId: downloadCsvWithUserAllAccountsTransactions
+      tags:
+      - User reports
+      parameters:
+      - $ref: '#/components/parameters/filtersDateFrom'
+      - $ref: '#/components/parameters/filtersDateTo'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: Params for collections are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParamsError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/balance:
+    get:
+      summary: Show list accounts balances for user
+      description: Has includes of related pagination.
+      operationId: showListUserAllAccountsBalances
+      tags:
+      - User reports
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageNumber'
+      - $ref: '#/components/parameters/includeAdditionalEntities'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/CollectionLinks'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserBalance'
+                  include_entities:
+                    type: object
+                    properties:
+                      EUR:
+                        type: object
+                        properties:
+                          currencyCode:
+                            type: string
+                            example: 'EUR'
+                          totalBalances:
+                            type: string
+                            example: '1,255.06'
+                          pendingTransactions:
+                            type: integer
+                            example: 2
+                          futureBalance:
+                            type: string
+                            example: '1,863.96'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /reports/private/v1/balance/export:
+    get:
+      summary: Responds with a file with accounts balances for user
+      operationId: downloadCsvWithUserAllAccountsBalances
+      tags:
+      - User reports
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+components:
+  schemas:
+    AdminUserAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 34
+        description:
+          type: string
+        amount:
+          type: string
+          example: '1,863.96'
+        balanceSnapshot:
+          type: string
+          example: '1,863.96'
+        requestId:
+          type: integer
+          format: uint64
+          example: 75
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        status:
+          type: string
+          example: 'executed'
+    AdminUserTransaction:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 364
+        description:
+          type: string
+        amount:
+          type: string
+          example: '34.96'
+        requestId:
+          type: integer
+          format: uint64
+          example: 75
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: uint64
+              example: 48
+            balance:
+              type: string
+              example: '1,863.96'
+            number:
+              type: string
+              example: 'VW453238248'
+            type:
+              $ref: '#/components/schemas/AccountTypeObject'
+    AdminUserBalance:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 73
+        number:
+          type: string
+          example: 'VW453238248'
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        status:
+          type: boolean
+        balance:
+          type: string
+          example: '1,863.96'
+        availableAmount:
+          type: string
+          example: '1,234.96'
+        type:
+          $ref: '#/components/schemas/AccountTypeObject'
+    AdminSystemTransaction:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 65
+        description:
+          type: string
+        amount:
+          type: string
+          example: '67.32'
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: uint64
+              example: 74
+            number:
+              type: string
+              example: 'VW453238248'
+            user:
+              $ref: '#/components/schemas/UserUserObject'
+            type:
+              $ref: '#/components/schemas/AccountTypeObject'
+    AdminSystemInterest:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 65
+        description:
+          type: string
+        amount:
+          type: string
+          example: '67.32'
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: uint64
+              example: 74
+            number:
+              type: string
+              example: 'VW453238248'
+            user:
+              $ref: '#/components/schemas/UserUserObject'
+            type:
+              $ref: '#/components/schemas/AccountTypeObject'
+    AdminSystemManualTransaction:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 65
+        description:
+          type: string
+        purpose:
+          type: string
+        subject:
+          type: string
+          example: 'DA'
+        amount:
+          type: string
+          example: '67.32'
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: uint64
+              example: 74
+            number:
+              type: string
+              example: 'VW453238248'
+            user:
+              $ref: '#/components/schemas/UserUserObject'
+            type:
+              $ref: '#/components/schemas/AccountTypeObject'
+    AdminSystemBalance:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 54
+        number:
+          type: string
+          example: 'VW453238248'
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        status:
+          type: boolean
+        balance:
+          type: string
+          example: '1,863.96'
+        availableAmount:
+          type: string
+          example: '1,211.42'
+        type:
+          $ref: '#/components/schemas/AccountTypeObject'
+        user:
+          $ref: '#/components/schemas/UserUserObject'
+    AdminSystemMaturity:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 34
+        number:
+          type: string
+          example: 'VW453238248'
+        status:
+          type: boolean
+        balance:
+          type: string
+          example: '1,863.96'
+        maturityDate:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        user:
+          $ref: '#/components/schemas/UserUserObject'
+        type:
+          $ref: '#/components/schemas/AccountTypeObject'
+    AdminSystemOutgoingTransfer:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 45
+        description:
+          type: string
+        amount:
+          type: string
+          example: '324.96'
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: uint64
+              example: 76
+            number:
+              type: string
+              example: 'VW453238248'
+            type:
+              $ref: '#/components/schemas/AccountTypeObject'
+            user:
+              $ref: '#/components/schemas/UserUserObject'
+    AdminSystemCard:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 65
+        number:
+          type: string
+          example: 'VW453238248'
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        type:
+          $ref: '#/components/schemas/AccountCardTypeObject'
+        user:
+          $ref: '#/components/schemas/UserUserObject'
+    AdminSystemAccess:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 65
+        ip:
+          type: string
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        user:
+          $ref: '#/components/schemas/UserUserObject'
+    AdminSystemRevenue:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 67
+        description:
+          type: string
+        subject:
+          type: string
+        amount:
+          type: string
+          example: '87.23'
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: uint64
+              example: 44
+            number:
+              type: string
+              example: 'VW453238248'
+            type:
+              $ref: '#/components/schemas/AccountTypeObject'
+        user:
+          $ref: '#/components/schemas/UserUserObject'
+    UserAccount:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 75
+        description:
+          type: string
+        requestId:
+          type: integer
+          format: uint64
+          example: 75
+        amount:
+          type: string
+          example: '78.43'
+        balanceSnapshot:
+          type: string
+          example: '1,863.96'
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+    UserTransaction:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 34
+        description:
+          type: string
+        amount:
+          type: string
+          example: '16.88'
+        status:
+          type: string
+        balanceSnapshot:
+          type: string
+          example: '1,863.96'
+        requestId:
+          type: integer
+          format: uint64
+          example: 75
+        createdAt:
+          type: string
+          format: datetime
+          example: '2018-10-26T13:16:11+00:00'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: uint64
+              example: 341
+            number:
+              type: string
+              example: 'VW453238248'
+            type:
+              $ref: '#/components/schemas/AccountTypeObject'
+    UserBalance:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 864
+        name:
+          type: string
+          example: 'EUR TEST'
+        currencyCode:
+          type: string
+          example: 'EUR'
+        numberOfAccounts:
+          type: integer
+          example: 3
+        totalBalances:
+          type: string
+          example: '2,116.88'
+    UserUserObject:
+      properties:
+        uid:
+          type: string
+          example: 'efc65872-5dc0-41d4-b0b0-04fb451cb500'
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+    AccountTypeObject:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 38
+        name:
+          type: string
+          example: 'EUR TEST'
+        currencyCode:
+          type: string
+          example: 'EUR'
+    AccountCardTypeObject:
+      properties:
+        id:
+          type: integer
+          format: uint64
+          example: 471
+        name:
+          type: string
+          example: 'EUR TEST'
+        currencyCode:
+          type: string
+          example: 'EUR'
+    CollectionLinks:
+      type: object
+      properties:
+        next:
+          type: string
+        prev:
+          type: string
+        first:
+          type: string
+        last:
+          type: string
+    ForbiddenResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: FORBIDDEN
+              target:
+                type: string
+                example: common
+              meta:
+                type: object
+    UnauthorizedResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: UNAUTHORIZED
+              target:
+                type: string
+                example: common
+              meta:
+                type: object
+    ParamsError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: BAD_COLLECTION_PARAMS
+              target:
+                type: string
+                example: common
+              meta:
+                type: object
+    BadRequestResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: BAD_REQUEST
+              target:
+                type: string
+                example: common
+              meta:
+                type: object
+    ServerErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: INTERNAL_SERVER_ERROR
+              target:
+                type: string
+                example: common
+              meta:
+                type: object
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    pageSize:
+      name: page[size]
+      in: query
+      description: 'Specifies count of objects returned in response.'
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 10
+        maximum: 100
+        default: 10
+    pageNumber:
+      name: page[number]
+      in: query
+      description: 'Specifies page number to be shown in response. size + number makes offset for records.'
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        default: 1
+    filtersDateFrom:
+      name: filters[dateFrom]
+      in: query
+      description: 'For filtering by created at from date. Rule is records where date >= passed. Format: 2018-11-20T00:00:00 02:00'
+      required: false
+      schema:
+        type: string
+        format: date
+    filtersDateTo:
+      name: filters[dateTo]
+      in: query
+      description: 'For filtering by created at to date. Rule is records where date <= passed. Format: 2018-12-03T23:59:59 02:00'
+      required: false
+      schema:
+        type: string
+        format: date
+    filtersAccountId:
+      name: filters[accountId]
+      in: query
+      description: 'Filter by account id'
+      required: true
+      schema:
+        type: integer
+        format: int32
+    filtersUserId:
+      name: filters[userId]
+      in: query
+      description: 'Filter by user id'
+      schema:
+        type: integer
+        format: int32
+    filtersUserIdRequired:
+      name: filters[userId]
+      in: query
+      description: 'Filter by user id'
+      required: true
+      schema:
+        type: integer
+        format: int32
+    filtersCurrencyCode:
+      name: filters[currencyCode]
+      in: query
+      description: 'Filter by currency code'
+      schema:
+        type: string
+    includeAdditionalEntities:
+      name: includeAdditionalEntities
+      in: query
+      description: 'Include additional entities in the response: 1- yes, 0- no.'
+      required: false
+      schema:
+        type: integer
+        format: int32
+        default: 0
